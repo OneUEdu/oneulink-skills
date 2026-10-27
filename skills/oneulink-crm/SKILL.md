@@ -5,7 +5,7 @@ description: Query and update existing schools, courses, and related records in 
 
 Use the tools actually exposed by the `oneulink-crm` MCP connection; the host may prefix their names. The host manages connection setup and sign-in. Use the user's intended environment; the production endpoint is https://mcp.oneulink.com/mcp/channel. If disconnected or setting up a new client, read [connection setup](references/setup.md) and use the host's MCP configuration and login flow rather than reading token files or asking the user to paste tokens.
 
-At task start or after reconnecting, call `crm_context` and report the returned environment, account name, and company. This endpoint is bound to OneULink; it has no company-switching operation, and switching companies in the website does not change the MCP identity. School and course records are shared data consumed by CRM and the public website.
+At task start or after reconnecting, call `crm_context` and report the returned environment, account name, and company. This endpoint is bound to OneULink; it has no company-switching operation, and switching companies in the website does not change the MCP identity. Public school and course fields are shared with the website. Consultation notes stay inside OneULink and follow the existing resource permissions; OneUEdu MCP does not return them. Read the relevant school/course reference before editing notes, and the feedback reference when handling a report.
 
 Resolve exact identifiers from query results, never from guessed names. Clarify an ambiguous target, year, or business meaning before the dependent edit. Act within existing explicit authorization without requesting the same approval again. A request to query or analyze does not authorize changing records or feedback status.
 
@@ -17,8 +17,8 @@ For ordinary queries, start with the tool's field descriptions. Load the relevan
 
 | Task | Reference |
 | --- | --- |
-| School names, descriptions, application fees, English requirements, tags | [Schools](references/schools.md) |
-| Course names, replacements, annual fees, English scores, start dates | [Courses and dates](references/courses.md) |
+| School names, descriptions, application fees, English requirements, tags, consultation notes | [Schools](references/schools.md) |
+| Course names, replacements, annual fees, English scores, start dates, consultation notes | [Courses and dates](references/courses.md) |
 | Campus addresses, academic calendars, scholarships, video associations | [School assets](references/assets.md) |
 | Course discounts, citizenship, admission conditions, validity | [Discounts](references/discounts.md) |
 | Investigate, associate, handle, or close website feedback | [Feedback](references/feedback.md), plus the relevant domain if editing resources |

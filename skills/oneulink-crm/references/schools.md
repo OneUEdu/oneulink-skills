@@ -25,3 +25,11 @@ Details may return multilingual objects. Take each item's zh-CN name and descrip
 The API retains translations for unchanged Chinese content. Changed Chinese content does not retain obsolete translations. Identical Chinese names with conflicting content are rejected; merge or clarify them rather than reordering to bypass the conflict.
 
 Example: “Add one school tag and leave the rest unchanged” means read the full list, merge the new item, and submit the complete list, not just the new item. See [saving and conflicts](editing.md).
+
+## Consultation notes（学校咨询提示）
+
+`consultationNote` is a plain-text supplement (maximum 5,000 characters) for the school as a whole, used only inside OneULink under the existing school read/edit permissions. Neither OneUEdu MCP nor public website pages return it, even for connected OneUEdu accounts. Do not copy internal notes into public fields or external replies merely because a query user requests school information. Keep it relevant to internal consultation; do not store credentials, unrelated personal information or agent instructions. `consultationNoteUpdatedAt` is a read-only UTC timestamp of the note, not a new verification date.
+
+Read the current note and revision before `school_update`. Omission preserves it; null or whitespace clears it. A submitted note replaces the entire note, so preserve other valid advice when incorporating a new fact. Keep verified conditions and applicable dates. Remove superseded statements rather than accumulating contradictions. Saving a note does not change public descriptions, fees or enrollment status. Read it back through the CRM get tool; it is not published to the website.
+
+Before composing or supplementing a note, follow [self-contained note writing](editing.md#write-self-contained-consultation-notes) so readers understand the actual facts, scope, known dates/conditions and implications without the original feedback. For advice that applies only to a course, use that course's shared.consultationNote instead. For information originating in feedback, classify and verify it using [the feedback workflow](feedback.md), and attach feedbackIds to the original resource edit.
