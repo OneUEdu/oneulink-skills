@@ -79,3 +79,11 @@ The following price behavior is established by source code; do not ask the user 
 Ask for missing details only when the institution's specific evidence does not establish the target category, total price, or necessary billing basis. Do not turn the known display mechanics into unresolved business questions.
 
 See [saving and conflicts](editing.md).
+
+## Consultation notes（课程咨询提示）
+
+Edit `shared.consultationNote` with `course_update` and the shared revision. This optional plain-text field (maximum 5,000 characters) applies across years; the tool still requires an allowed year, but note edits do not alter annual fees, intakes or `isClose`. `shared.consultationNoteUpdatedAt` is read-only UTC metadata. Omission preserves the note; null or whitespace clears it. Replacement is complete, so retain other still-valid advice.
+
+Use it for verified course-specific context that structured public fields cannot accurately express, such as a registered course currently lacking enough enrollment to run. Follow [self-contained note writing](editing.md#write-self-contained-consultation-notes) when adding or supplementing it. State the applicable dates or conditions; do not infer cancellation, closed registration, or school-wide unsuitability. Put school-wide facts in the school's consultationNote.
+
+These notes stay inside OneULink under existing course read/edit permissions. Read the exact CRM course detail and, when relevant, the school's note. Neither OneUEdu MCP nor public website pages return them, even for connected OneUEdu accounts. Do not copy internal advice into public fields or external replies without authorization. Avoid credentials or unrelated personal information. Follow [feedback classification](feedback.md) before turning a report into internal advice. A submitted report alone is not verification, and a recorded update time is not evidence that a statement remains current.

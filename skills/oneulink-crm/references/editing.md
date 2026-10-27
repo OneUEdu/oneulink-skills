@@ -16,6 +16,23 @@ Submit only requested, established changes. Omitted fields stay unchanged; 0 and
 
 Use HTML only for fields already supporting rich text, such as school English requirements and course information. Preserve untouched image references; do not add local paths, data URLs, or new images that have not been uploaded. The API sanitizes HTML and checks image origins. Keep plain-text fields as plain text.
 
+## Write self-contained consultation notes
+
+Apply this when adding or revising OneULink-internal `consultationNote`. An internal reader of the CRM school/course detail may not have the originating conversation or feedback. Write enough factual context to use the note correctly; labels such as “verified school advice”, “special circumstances”, or “confirm first” are not useful notes by themselves.
+
+Include what the evidence establishes:
+
+- The exact school/course and any narrower campus, intake or student group. Course notes are shared across years, so state the applicable year/term when the fact is time-limited.
+- The concrete situation and its effect on advice or applications. Distinguish an actual class not running from a cancelled registration or closed admissions; do not invent a cause or generalize a course issue to the whole school.
+- Known effective dates, conditions and exceptions. Prefer explicit dates/terms to “currently” or “this year” when the source establishes them. Do not infer validity or verification dates from the edit timestamp.
+- Relevant source/confirmation context and date when known, plus what remains to be checked before acting. Keep the note focused on useful internal facts; retain detailed evidence in the edit reason or feedback handling record and avoid unrelated personal details or credentials.
+
+Use a concise paragraph or short factual bullets, without imposing a fixed length or filling empty template sections. Preserve the source's meaning and language. Missing nonessential details may remain unstated; if scope, timing or meaning is too uncertain for a reliable note, ask for that missing fact and keep the unresolved claim in feedback/handling records instead of publishing a guess. “Verified” is not a substitute for the fact and is not a system-generated approval status.
+
+Illustration only, assuming the source confirms each fact: “学校 A 的课程 B 在 2027 年第一学期未实际开班；该课程 CRICOS 注册仍保留。此说明仅涉及该课程该学期，不能据此认定课程已注销或学校其他课程停开。推荐或安排申请前需向院校确认下一期开班情况。” Do not copy these hypothetical facts or dates into real records.
+
+When supplementing an existing note, retain still-valid context, remove superseded statements, and read the merged result as a standalone note before saving. Follow [feedback classification](feedback.md#choose-the-destination-after-verification) when a report is the source.
+
 ## Save and retry
 
 Use a separate, stable idempotencyKey, such as a UUID, for each resource edit and provide its reason. Retries of the same request reuse its key, payload, and revision. For courses, send only the revision of each modified group; other resources use the version returned by their own details. Resource revisions are server-issued strings, not timestamps or locally incremented numbers.

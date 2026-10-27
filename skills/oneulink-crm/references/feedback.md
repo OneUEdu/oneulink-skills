@@ -34,3 +34,14 @@ Omitted, null, or blank handlingNote does not clear an old note. A non-empty not
 Example: “Investigate this feedback and correct the course if it is wrong” permits verified field edits and feedback linkage; conclude only after all necessary edits succeed. “Take a look at this feedback” means query and analyze, not mark it in progress first.
 
 Report feedback ID, school/course codes and year, changed fields, auditId, and handling status. For syncState=pending/failed, state that data is saved while website synchronization is pending/failed; do not claim the public site is updated. If creation, deletion, uploads, or other required tools are unavailable, retain an unfinished status and explain the remaining work rather than inventing a call.
+
+## Choose the destination after verification
+
+OneUEdu MCP collects general reports; it has no consultation-note destination field and does not expose internal notes. When an authorized OneULink task involves handling a report, classify individual facts rather than forcing the whole report into one destination:
+
+- Prefer the existing public field when it accurately expresses a verified correction: tuition, campus address, entry requirement or confirmed intake.
+- Use consultationNote for supplementary circumstances affecting advice or applications that the public fields cannot express accurately. A CRICOS-registered course with no class currently running is course-specific advice; it does not automatically set isClose or become a school-wide warning.
+- One report may require both a public-field edit and a note. Link both operations to the same feedback ID and resolve only when the necessary work is complete.
+- Unverified or ambiguous claims remain in feedback with a concrete handling note about what is unknown. Internal consultation notes stay in OneULink; do not promise the reporter that OneUEdu users can query them or copy them into public fields to make them visible.
+
+Feedback never triggers an automatic resource write. Within an authorized investigation/edit task, verify evidence and exact scope, read the existing note and revision, merge or clear superseded advice, save with feedbackIds and a reason, read back, then update feedback status separately. Compose the saved internal note using [self-contained note writing](editing.md#write-self-contained-consultation-notes); a handling summary such as “verified, updated” does not explain the situation to a CRM detail-query reader. Explain the decision in handlingNote.
