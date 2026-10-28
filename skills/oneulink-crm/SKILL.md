@@ -9,6 +9,8 @@ At task start or after reconnecting, call `crm_context` and report the returned 
 
 Resolve exact identifiers from query results, never from guessed names. Clarify an ambiguous target, year, or business meaning before the dependent edit. Act within existing explicit authorization without requesting the same approval again. A request to query or analyze does not authorize changing records or feedback status.
 
+Match each fact to a field's meaning before writing. Descriptions and internal consultation notes are not fallback storage for missing fields, tools or permissions. Keep unsupported work unfinished and explain the gap; use [destination selection](references/editing.md#choose-a-destination-before-writing) when a fact does not fit.
+
 Respond in the user's language unless asked otherwise. Preserve literal API field names, identifiers, and enum values. Do not translate stored or user-provided content merely because these instructions are in English; change that content only as requested. Chinese labels in parentheses identify CRM or website wording, not alternative API values.
 
 ## Load references by task

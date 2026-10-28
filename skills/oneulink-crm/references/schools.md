@@ -7,7 +7,7 @@ Locate with schools_list, read with school_get, and edit with school_update. sch
 | Field | Meaning and actual behavior |
 | --- | --- |
 | enName / cnName | English/Chinese name（英文/中文名称）. The English name cannot be cleared; null clears the Chinese name. |
-| enDescription / cnDescription | English/Chinese description（英文/中文简介）. The webpage uses plain-text inputs; null clears them. |
+| enDescription / cnDescription | Public English/Chinese school introduction（英文/中文简介）. Plain text; null clears it. Not fallback storage for missing fields/tools or raw feedback; preserve unrelated existing content and use [destination selection](editing.md#choose-a-destination-before-writing). |
 | url | School website URL（学校官网）. Validated as a URL by the backend; null clears it. |
 | rtoCode | RTO registration code, stored as a string. Do not infer it from the name or CRICOS code. |
 | englishEntryRequirements | School English entry requirements（英语入学要求）. Supports the existing rich-text HTML format; independent of annual course English notes and scores. |
