@@ -40,10 +40,10 @@ For a supplied weekly rate, establish the category, billable weeks, and whether 
 | isAccurateFee | Fees verified（费用已核实）: true=verified against the institution's official fee schedule, false=unverified, null=unset. The public international-student fee display shows a verification notice. Entering an amount does not verify it or replace the supporting evidence. |
 | tuitionByScholarship | CRM label: 学费按奖学金显示. The public website displays “奖学金项目” (scholarship program) and a note that the corresponding tuition concession is fully provided by the school as a scholarship. This does not mean all tuition is waived. It neither associates a scholarship record nor calculates an amount. |
 | domesticHasGovernmentSubsidy | CRM label: 本地学生政府补贴. The public website displays “政府补贴” (government subsidy) for domestic fees. The price still comes directly from domesticTuitionFee; the flag does not subtract a subsidy or establish individual eligibility. |
-| courseInformation | Annual public course description（课程简介）: course overview, teaching content or learning outcomes, supporting existing rich-text HTML. Not fallback storage for unmapped locations, fees or feedback. Preserve unrelated existing content and images; see [destination selection](editing.md#choose-a-destination-before-writing). |
+| courseInformation | Annual public course description（课程简介）, **English source text; write in English**: course overview, teaching content or learning outcomes, supporting existing rich-text HTML. Not fallback storage for unmapped locations, fees or feedback. Preserve unrelated existing content and images; see [destination selection](editing.md#choose-a-destination-before-writing). |
 | courseUrl | Annual course source URL（课程来源网址）. The backend requires a valid http/https URL. |
-| english | Annual English requirements note（英语要求说明）, plain text. Does not update scores automatically. |
-| intakes | Annual intake note（入学说明）, plain text. Does not update structured dates or school calendars. |
+| english | Annual English requirements note（英语要求说明）, **English source text; write in English**, plain text. Does not update scores automatically. |
+| intakes | Annual intake note（入学说明）, **English source text; write in English**, plain text. Does not update structured dates or school calendars. |
 | ielts / pte | Annual entry-score requirements; see below. |
 
 All four boolean flags accept null to unset them; null is distinct from false. Text and URL fields can be cleared with null. The API saves submitted fields. When a year has no recorded row, GET returns null; an edit may populate that annual record, but must not automatically copy the previous year.

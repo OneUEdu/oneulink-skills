@@ -33,7 +33,7 @@ Use YYYY-MM-DD dates. year accepts 1900–2200; every non-empty date must fall w
 
 | Field | Meaning and related behavior |
 | --- | --- |
-| name / description | Name / eligibility or usage conditions（奖学金名称/使用条件）. Both are required plain text. description is not course information or a calculation formula. |
+| name / description | Name / eligibility or usage conditions（奖学金名称/使用条件）. Both are **Chinese source text; write in Chinese**, with other languages derived by the backend. Both are required plain text. description is not course information or a calculation formula. |
 | level | Qualification scope（学历范围）: all=all（全部）, diploma=diploma（专科）, bachelor=bachelor's（本科）, master=master's（研究生）. Independent of range. |
 | range | Applicability（适用范围）: all=whole school（全部）, subject=subject category（专业）, course=specific course（课程）. |
 | subject | Required for range=subject. Two-character classification code; preserve leading zeroes. The webpage calls 00 “全校”, but the public site matches subject code 00 exactly, not as a whole-school wildcard. Use range=all for the whole school. Use the schema for other code meanings; do not guess. |
