@@ -9,7 +9,7 @@ Use course_discounts_list, course_discount_get, and course_discount_update for e
 | courseCode | Existing course code at this school. Changing it reassociates the discount; it does not edit the course master record or annual fees. |
 | type | reduction=fixed reduction（固定减免）, discount=percentage discount（打折扣）. Changing type does not calculate an amount. |
 | discountedFee | Final discounted fee（优惠后费用）in AUD, non-negative with at most two decimal places. Not a deduction amount or percentage. Accepts a number or decimal string; reads return a two-decimal string. |
-| description / enDescription | Discount description / English description（优惠说明/英文说明）, plain text. null clears them. |
+| description / enDescription | Both take English prose. `description` is the English source used by the v2 translation model, despite its generic CRM label（优惠说明）; `enDescription` is the separate CRM English-description field（英文说明）. Do not assume `description` is Chinese or automatically copy a change into both fields. Plain text; null clears them. |
 | location | Applicable student location（学生所在地）: onshore=in Australia（境内）, offshore=outside Australia（境外）. Does not establish citizenship or domestic-student status. |
 | haveStudentVisa | Student visa required（要求持有学生签证）: true=required, false=not required, null=unset. This is an eligibility condition, not an update to an individual student's visa status. |
 
