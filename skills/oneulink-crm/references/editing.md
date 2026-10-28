@@ -16,6 +16,23 @@ Submit only requested, established changes. Omitted fields stay unchanged; 0 and
 
 Use HTML only for fields already supporting rich text, such as school English requirements and course information. Preserve untouched image references; do not add local paths, data URLs, or new images that have not been uploaded. The API sanitizes HTML and checks image origins. Keep plain-text fields as plain text.
 
+## Choose a destination before writing
+
+Match each verified fact to its meaning, scope, year and audience. A string or HTML field accepting the value does not make it the right destination.
+
+| Situation | Action |
+| --- | --- |
+| An accurate field and permitted tool exist | Make the smallest authorized change in that field. |
+| The right field exists but its tool or permission is unavailable | Report the missing capability; leave that change unfinished. Do not use another writable field or bypass the MCP. |
+| Verified supplementary context affects internal advice or applications | Use consultationNote only if it independently fits that purpose; follow the note-writing section below. |
+| No suitable field exists, or the destination/meaning is unclear | Preserve the report in feedback and explain the gap in handlingNote when feedback handling is authorized; otherwise report it to the user. Ask only for the missing decision needed to proceed. |
+
+School descriptions and courseInformation describe the school or course, including its overview, teaching content or learning outcomes. Do not append raw feedback, address inventories, fee tables or other unmapped facts merely because no other tool accepts them. A user's explicit request for relevant descriptive copy permits that editorial change; it does not establish a structured campus relationship or authorize unrelated edits. Preserve untouched description content and image references.
+
+Consultation notes are not a general overflow field either. Saving a note or handling explanation does not complete a missing public-data update. Keep partially handled feedback pending/in_progress, with completed and outstanding items distinguished; do not resolve or close it just because the available tools cannot finish it.
+
+For example, a request to record one theory location and two simultaneously used workshops requires representing distinct locations and their roles for that course. Correct a matching existing campus only when the requested fact really corrects that record. Do not concatenate locations into its address, rename a campus to simulate course roles, or put the inventory in the course description. The current MCP cannot create locations or maintain those course-location roles; report that gap without inventing a field. See [campus capabilities](assets.md#campuses-campuses).
+
 ## Write self-contained consultation notes
 
 Apply this when adding or revising OneULink-internal `consultationNote`. An internal reader of the CRM school/course detail may not have the originating conversation or feedback. Write enough factual context to use the note correctly; labels such as “verified school advice”, “special circumstances”, or “confirm first” are not useful notes by themselves.

@@ -14,6 +14,8 @@ Locate records with school_assets_list by kind, read current values and revision
 
 All these fields can be cleared with null when editing. Missing source information is not an instruction to clear them. The API rebuilds detailAddress from the address lines, city, state, and postcode and marks the record as manually modified. rawState/rawCampusName/rawDetailAddress/locationKey/isModify/detailAddress are read-only; do not edit source values. The webpage's restore-original-data action is not exposed through this MCP.
 
+Each campus address represents one location; addressLine1–4 are parts of that location, not four separate teaching sites. This MCP edits existing campuses but cannot create locations or assign theory/workshop roles to a course. Verify a specific existing record before correcting it; do not repurpose a different campus, concatenate separate sites, or use names/descriptions to simulate missing relations. For unsupported location work, follow [destination selection](editing.md#choose-a-destination-before-writing) and keep the remaining feedback work unfinished.
+
 ## Academic calendars: important-times
 
 | Field | Meaning and constraints |
