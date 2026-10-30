@@ -1,6 +1,6 @@
 ---
 name: oneulink-crm
-description: Query and update existing schools, courses, and related records in OneULink CRM, investigate website feedback, and apply sourced batch updates for internal Channel staff.
+description: Query and maintain OneULink CRM school and course information, including course major directions, investigate website feedback, and apply sourced batch updates for internal Channel staff.
 ---
 
 Use the tools actually exposed by the `oneulink-crm` MCP connection; the host may prefix their names. The host manages connection setup and sign-in. Use the user's intended environment; the production endpoint is https://mcp.oneulink.com/mcp/channel. If disconnected or setting up a new client, read [connection setup](references/setup.md) and use the host's MCP configuration and login flow rather than reading token files or asking the user to paste tokens.
