@@ -6,6 +6,8 @@ Read this before resource edits. Field meanings are in [schools](schools.md), [c
 
 School/course keyword search is a substring match on names and CRICOS codes, not semantic or full-text search. Paginate using total. Shorten the keyword if needed; do not pass a name as a get identifier. Course lists retain the API's course_cricos_code/en_name/cn_name fields; only course details contain shared/annual. Report and skip malformed records such as entries with empty codes rather than inventing identifiers.
 
+For course major directions, use the dedicated major tools described in [courses](courses.md#major-directions专业方向), including the limited ability to add a direction to an existing course.
+
 Before editing, call the corresponding get tool for the complete current values and revision. In a tool result, data is the business result and executionContext is the actual execution identity. Use the current tool schema for enums, lengths, and required fields. Do not copy a complete DTO, raw collected fields, read-only display fields, or identity fields into patch.
 
 ## Verify and make the smallest intended change
