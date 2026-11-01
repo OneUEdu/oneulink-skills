@@ -6,7 +6,7 @@ Skills for OneULink staff. The repository is public so anyone can install the sk
 
 | Skill | Purpose |
 | --- | --- |
-| [oneulink-crm](skills/oneulink-crm/SKILL.md) | Query and update existing school/course records, investigate website feedback, and apply sourced batch updates through the internal OneULink CRM MCP. |
+| [oneulink-crm](skills/oneulink-crm/SKILL.md) | Query and update existing school/course records, maintain course major options, investigate website feedback, and apply sourced batch updates through the internal OneULink CRM MCP. |
 
 Instructions are in English with Chinese interface labels where useful. Agents follow the user's language and preserve literal API names, enum values, and source data. References are loaded by task rather than all at once.
 
