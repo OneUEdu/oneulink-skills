@@ -1,6 +1,6 @@
 # OneULink Skills
 
-Private skills for OneULink staff. This repository is the source of truth for the skills; it does not contain the CRM backend or MCP server implementation.
+Skills for OneULink staff. The repository is public so anyone can install the skills; using them requires signing in to OneULink, and CRM access is controlled by each account's OAuth grant and API permissions. This repository is the source of truth for the skills; it does not contain the CRM backend or MCP server implementation.
 
 ## Available skills
 
@@ -12,7 +12,7 @@ Instructions are in English with Chinese interface labels where useful. Agents f
 
 ## Install
 
-You need Node.js/npm, a supported agent client, and read access to this private GitHub repository. Use your existing Git, GitHub CLI, or SSH authentication. Repository access allows downloading the Skill; CRM access is separately controlled by your account's OAuth grant and API permissions.
+You need Node.js/npm and a supported agent client. The repository is public, so downloading the Skill needs no GitHub sign-in; CRM access is controlled separately by your OneULink sign-in, your account's OAuth grant and API permissions.
 
 Install the Skill for Codex and Claude Code:
 
