@@ -42,11 +42,31 @@ For a supplied weekly rate, establish the category, billable weeks, and whether 
 | domesticHasGovernmentSubsidy | CRM label: 本地学生政府补贴. The public website displays “政府补贴” (government subsidy) for domestic fees. The price still comes directly from domesticTuitionFee; the flag does not subtract a subsidy or establish individual eligibility. |
 | courseInformation | Annual public course description（课程简介）, **English source text; write in English**: course overview, teaching content or learning outcomes, supporting existing rich-text HTML. Not fallback storage for unmapped locations, fees or feedback. Preserve unrelated existing content and images; see [destination selection](editing.md#choose-a-destination-before-writing). |
 | courseUrl | Annual course source URL（课程来源网址）. The backend requires a valid http/https URL. |
+| academicEntryRequirements | Annual academic entry requirements（学术入学要求）, **English source text; write in English**, plain text with line breaks, maximum 100,000 characters. Course-specific academic eligibility and selection conditions; follow the classification below. Omission preserves; null or whitespace clears. Does not change English requirements, fees or other years. |
 | english | Annual English requirements note（英语要求说明）, **English source text; write in English**, plain text. Does not update scores automatically. |
-| intakes | Annual intake note（入学说明）, **English source text; write in English**, plain text. Does not update structured dates or school calendars. |
+| intakes | Annual intake note（入学批次说明）, **English source text; write in English**, plain text. Not academic or English conditions; does not update structured dates or school calendars. |
 | ielts / pte | Annual entry-score requirements; see below. |
 
 All four boolean flags accept null to unset them; null is distinct from false. Text and URL fields can be cleared with null. The API saves submitted fields. When a year has no recorded row, GET returns null; an edit may populate that annual record, but must not automatically copy the previous year.
+
+## Academic entry requirements
+
+Edit `annual.academicEntryRequirements` through `course_update` with the selected year's annual revision. Read the complete current text before replacing it and retain still-valid conditions. The source is English; faithfully translate supplied Chinese prose without inventing a qualification, score, assessment date or certainty. The API stores text; it does not calculate eligibility or guarantee admission. Do not copy a previous year automatically. `china_requirement` is a deprecated, read-only legacy field, not this field's source or fallback; never migrate its old values by inference.
+
+Use this field for an institution's established course-specific academic entry and selection conditions:
+
+- Required school completion, qualifications, degrees, relevant disciplines and prerequisite subjects.
+- Grade thresholds such as GPA, WAM, average marks or ATAR, retaining the original scale, calculation basis, applicant group and applicable qualification.
+- Portfolios, research proposals, auditions or academic interviews explicitly required for academic selection.
+- Relevant professional experience only when the institution explicitly accepts/requires it as an entry qualification or alternative academic pathway.
+
+Preserve separate admission pathways, AND/OR relationships, conditions, exceptions and applicable groups/intakes. A bare “65” does not establish 65%, a GPA conversion, a country-wide equivalence or a guaranteed offer. Clarify missing information only when it materially changes the authorized edit. Keep source links, known source dates and the basis for verification in the edit reason or linked feedback; the save timestamp is not a verification date.
+
+IELTS/PTE, language exemptions and language-course pathways belong in the existing English fields. Dates, fees, discounts and course overviews use their own fields. Visa eligibility, health checks and placement compliance are not academic criteria; report a missing destination in OneULink CRM handling when no accurate field/tool exists. Internal advice belongs in consultationNote only when it independently fits that purpose. Unverified reports remain feedback/handling records rather than becoming established requirements.
+
+This classification governs CRM resource editing, not feedback submission. Users may report any subject; lack of a writable destination never invalidates their feedback. OneUEdu feedback guidance only helps the Agent write a stand-alone report a consultant can understand without the chat. See [CRM feedback handling](feedback.md#choose-the-destination-after-verification).
+
+Illustration only: if the institution explicitly establishes “a relevant bachelor degree with at least 65% average OR another bachelor degree plus two years of relevant experience”, retain both complete paths and the meaning of OR. Put an accompanying IELTS 6.5 requirement in English fields. A statement about a placement health check remains valid feedback even when no corresponding CRM editor exists. Do not save these hypothetical conditions into a real course.
 
 ## IELTS / PTE
 

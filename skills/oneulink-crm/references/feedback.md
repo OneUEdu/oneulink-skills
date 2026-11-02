@@ -37,7 +37,7 @@ Report feedback ID, school/course codes and year, changed fields, auditId, and h
 
 ## Choose the destination after verification
 
-OneUEdu MCP collects general reports; it has no consultation-note destination field and does not expose internal notes. When an authorized OneULink task involves handling a report, classify individual facts rather than forcing the whole report into one destination:
+OneUEdu MCP accepts user feedback on any subject. Its writing guidance helps the Agent compose a stand-alone plain-text report a consultant can understand without the originating chat; it does not require a report to match a writable CRM field or be independently verified before submission. It has no consultation-note destination field and does not expose internal notes. The classification and editing rules below apply here in OneULink CRM after receipt. When an authorized OneULink task involves handling a report, classify individual facts rather than forcing the whole report into one destination:
 
 - Prefer the existing public field when it accurately expresses a verified correction: tuition, campus address, entry requirement or confirmed intake.
 - Use consultationNote for supplementary circumstances affecting advice or applications that the public fields cannot express accurately. A CRICOS-registered course with no class currently running is course-specific advice; it does not automatically set isClose or become a school-wide warning.

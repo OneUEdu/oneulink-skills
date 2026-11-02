@@ -20,7 +20,7 @@ Use HTML only for fields already supporting rich text, such as school English re
 
 Conversation language and storage language are separate. For an authorized edit, convert supplied prose into the language declared in the relevant field reference before saving. English source fields must contain English prose, not Chinese or a bilingual concatenation. Preserve qualifications, dates, quantities, named entities and uncertainty; retain established official names. Do not invent a fact or change a requirement while translating. Ask only when ambiguity would change the meaning of the saved data.
 
-Course annual `courseInformation`, `english` and `intakes`, English name/description fields, and course-discount `description` use English. Explicit Chinese name/description fields, school tags and scholarship `name`/`description` use Chinese. Other fields do not inherit a language requirement merely because their name contains “English”: school `englishEntryRequirements` describes the subject of a requirement and has no declared source-language mapping in the current v2 translation model. Preserve existing language for fields without a declared language, including internal `consultationNote`, `reason` and feedback `handlingNote`, unless the task requests otherwise.
+Course annual `courseInformation`, `academicEntryRequirements`, `english` and `intakes`, English name/description fields, and course-discount `description` use English. Explicit Chinese name/description fields, school tags and scholarship `name`/`description` use Chinese. Other fields do not inherit a language requirement merely because their name contains “English”: school `englishEntryRequirements` describes the subject of a requirement and has no declared source-language mapping in the current v2 translation model. Preserve existing language for fields without a declared language, including internal `consultationNote`, `reason` and feedback `handlingNote`, unless the task requests otherwise.
 
 Read the current text before merging changes. Translate the content needed for the authorized field edit; do not turn a small addition into a rewrite of unrelated historical paragraphs or other fields. If mixed legacy content prevents producing a consistent English source without expanding the requested edit, report the needed normalization instead of silently rewriting it.
 
@@ -28,7 +28,7 @@ The backend derives other languages asynchronously for configured source fields.
 
 ## Choose a destination before writing
 
-Match each verified fact to its meaning, scope, year and audience. A string or HTML field accepting the value does not make it the right destination.
+These are OneULink CRM editing rules, not limits on feedback intake. Accepting a report does not depend on an available destination field. During authorized CRM handling, match each verified fact to its meaning, scope, year and audience. A string or HTML field accepting the value does not make it the right destination.
 
 | Situation | Action |
 | --- | --- |
