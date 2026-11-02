@@ -44,7 +44,7 @@ For a supplied weekly rate, establish the category, billable weeks, and whether 
 | courseUrl | Annual course source URL（课程来源网址）. The backend requires a valid http/https URL. |
 | academicEntryRequirements | Annual academic entry requirements（学术入学要求）, **English source text; write in English**, plain text with line breaks, maximum 100,000 characters. Course-specific academic eligibility and selection conditions; follow the classification below. Omission preserves; null or whitespace clears. Does not change English requirements, fees or other years. |
 | english | Annual English requirements note（英语要求说明）, **English source text; write in English**, plain text. Does not update scores automatically. |
-| intakes | Annual intake note（入学批次说明）, **English source text; write in English**, plain text. Not academic or English conditions; does not update structured dates or school calendars. |
+| intakes | Deprecated intake note（旧入学说明）retained for historical readback only. No daily web editor or MCP write field; never reuse it for academic conditions. Actual dates use the existing structured date tools. Do not rewrite or migrate old content automatically. |
 | ielts / pte | Annual entry-score requirements; see below. |
 
 All four boolean flags accept null to unset them; null is distinct from false. Text and URL fields can be cleared with null. The API saves submitted fields. When a year has no recorded row, GET returns null; an edit may populate that annual record, but must not automatically copy the previous year.
