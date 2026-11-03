@@ -70,7 +70,7 @@ Use a separate, stable idempotencyKey, such as a UUID, for each resource edit an
 - invalid_country_code, invalid_year, or fields errors: correct established mistakes at the reported field paths. Check the source year as well; do not substitute the first allowed year.
 - If the outcome remains unclear, failures repeat, or permission is lost, stop that operation and report what is needed to resume.
 
-feedback_update uses an integer version and no idempotency key. Follow the [feedback rules](feedback.md), not resource retry semantics.
+feedback_update action omitted/handle uses an integer version and no idempotency key; its reply/mark_followed branches use requestId UUIDs. Follow the [feedback action and retry rules](feedback.md#reply-and-follow-up-with-the-same-tools), not resource retry semantics.
 
 ## Determine completion
 

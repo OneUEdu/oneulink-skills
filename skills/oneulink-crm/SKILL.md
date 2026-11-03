@@ -23,7 +23,7 @@ For ordinary queries, start with the tool's field descriptions. Load the relevan
 | Course names, replacements, annual fees, academic entry requirements, English scores, start dates, consultation notes | [Courses and dates](references/courses.md) |
 | Campus addresses, academic calendars, scholarships, video associations | [School assets](references/assets.md) |
 | Course discounts, citizenship, admission conditions, validity | [Discounts](references/discounts.md) |
-| Investigate, associate, handle, or close website feedback | [Feedback](references/feedback.md), plus the relevant domain if editing resources |
+| Investigate, associate, handle, reply to, follow up, or close website feedback | [Feedback](references/feedback.md), plus the relevant domain if editing resources |
 | Spreadsheet or multi-record updates | [Batch updates](references/batch.md), plus only the domains involved |
 
 ## Capabilities and outcomes
