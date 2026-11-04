@@ -21,6 +21,7 @@ For ordinary queries, start with the tool's field descriptions. Load the relevan
 | --- | --- |
 | School names, descriptions, application fees, English requirements, tags, consultation notes | [Schools](references/schools.md) |
 | Course names, replacements, annual fees, academic entry requirements, English scores, start dates, consultation notes | [Courses and dates](references/courses.md) |
+| Payment schedules/deposits, class schedules, workshops or placement hours | [Course arrangements](references/course-arrangements.md) |
 | Campus addresses, academic calendars, scholarships, video associations | [School assets](references/assets.md) |
 | Course discounts, citizenship, admission conditions, validity | [Discounts](references/discounts.md) |
 | Investigate, associate, handle, reply to, follow up, or close website feedback | [Feedback](references/feedback.md), plus the relevant domain if editing resources |
