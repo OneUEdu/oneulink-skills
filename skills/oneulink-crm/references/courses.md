@@ -24,13 +24,17 @@ All amounts below are non-negative integers in AUD; durations are non-negative w
 | Online study（线上授课） | onlineTuitionFee / onlineLength | onlineMaterialFee |
 | VOE international students（国际学生·VOE） | voeTuitionFee / voeLength | voeMaterialFee |
 
-The website displays VOE as a separate fee category labeled “VOE 课程”. Both its tuition and duration must be greater than 0 for it to appear in course-list and detail fee options. Entering tuition alone does not ensure display. Online study and VOE use separate fields.
+The website displays VOE as a separate fee category labeled “VOE 课程”. Legacy fee options require positive tuition and duration in the course list. With the optional payment-plan capability, course details can also expose a plan-only category; do not invent tuition or duration to make it appear. Entering tuition alone does not establish a payment plan. Online study and VOE use separate fields.
 
 Each group is stored independently, without automatic propagation or conversion. An onshore international student is not a domestic student; “onshore” alone does not justify writing domestic fields. Changing tuition does not automatically adjust duration, registration/material/internship fees, or the verification flag.
 
 For durations of at least 52 weeks, the public detail summary shows a rounded per-academic-year amount calculated as `total tuition / (weeks / 52)`; shorter courses show the total. The course list also lets visitors switch between total and per-academic-year amounts. Do not write a displayed annual amount back as CRM total tuition. The primary display follows the visitor's onshore/offshore selection, preferring the corresponding category before falling back to other groups with data.
 
 For a supplied weekly rate, establish the category, billable weeks, and whether multiplying a constant weekly rate is appropriate. Do not enter a weekly rate as total tuition or infer duration from the course name. Fractional durations are unsupported; do not round them yourself.
+
+## Payment, teaching and placement
+
+For the optional annual payment plans (including upfront deposits), class schedules and workshop locations, or the existing shared placement flag/hours, read [course arrangements](course-arrangements.md). It covers cents versus legacy AUD units, complete JSON replacement, upfront fees without double counting, campus reference/override semantics, and scope across years. Availability follows the current connection's schema; installing this Skill alone does not enable the new fields. Total tuition remains independent of payment-plan subtotals.
 
 ## Annual flags and supporting information
 
