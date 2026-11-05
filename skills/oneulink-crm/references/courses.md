@@ -43,7 +43,7 @@ For a supplied weekly rate, establish the category, billable weeks, and whether 
 | courseInformation | Annual public course description（课程简介）, **English source text; write in English**: course overview, teaching content or learning outcomes, supporting existing rich-text HTML. Not fallback storage for unmapped locations, fees or feedback. Preserve unrelated existing content and images; see [destination selection](editing.md#choose-a-destination-before-writing). |
 | courseUrl | Annual course source URL（课程来源网址）. The backend requires a valid http/https URL. |
 | academicEntryRequirements | Annual academic entry requirements（学术入学要求）, **English source text; write in English**, plain text with line breaks, maximum 100,000 characters. Course-specific academic eligibility and selection conditions; follow the classification below. Omission preserves; null or whitespace clears. Does not change English requirements, fees or other years. |
-| english | Annual English requirements note（英语要求说明）, **English source text; write in English**, plain text. Does not update scores automatically. |
+| english | Annual English requirements note（英语要求说明）, **English source text; write in English**, plain text. Preserve applicability, exemptions and alternatives here. Verified IELTS/PTE thresholds also require the corresponding structured scores; this note does not populate them. |
 | intakes | Deprecated intake note（旧入学说明）retained for historical readback only. No daily web editor or MCP write field; never reuse it for academic conditions. Actual dates use the existing structured date tools. Do not rewrite or migrate old content automatically. |
 | ielts / pte | Annual entry-score requirements; see below. |
 
@@ -70,9 +70,26 @@ Illustration only: if the institution explicitly establishes “a relevant bache
 
 ## IELTS / PTE
 
+When authorized to update a course's English requirements, read `annual.english`, `annual.ielts` and `annual.pte` together for the exact course and year. Map every verified numeric threshold to its structured field, and preserve its applicant scope, conditions, exemptions and alternatives in the English note. Submit the necessary note and score changes in the same `course_update.patch.annual`; prose is not a substitute for supported structured values. Already-correct scores need no redundant write, but still require readback verification.
+
 listen=listening（听力）, speak=speaking（口语）, read=reading（阅读）, write=writing（写作）, overall=overall score（总分）. IELTS accepts 0–9 in 0.5 increments; PTE accepts integers from 0–90. The overall score is independent, not a sum or average of components. Do not convert between exams.
 
+For example, verified course evidence stating “IELTS 7.0 overall, no component below 6.5” requires all five IELTS fields:
+
+```json
+{
+  "annual": {
+    "english": "IELTS 7.0 overall, with no component below 6.5.",
+    "ielts": {"overall": 7, "listen": 6.5, "speak": 6.5, "read": 6.5, "write": 6.5}
+  }
+}
+```
+
+This is a patch illustration, not evidence about any real course. Retain the actual source's conditions in `english`. “Each component” establishes all four minima; a stated overall alone establishes no component score. Apply the same mapping to explicitly supplied PTE thresholds, never by converting IELTS. An English-medium qualification exemption or a warning that other awards have different requirements does not by itself invalidate the verified thresholds for this course's test-score pathway. Conversely, unresolved course/year applicability or conflicting thresholds for different applicant groups/intakes cannot be reduced to one guessed score set: retain the qualified explanation and record any required structured update as unfinished. A note-only change about exemptions or alternatives with no established numeric change may leave scores untouched; absence of an exam in the source does not establish that its recorded scores should be cleared.
+
 Objects merge individual components. To change only the overall requirement, send `ielts: {overall: 6.5}` and retain omitted components. A component set to null clears that component; ielts/pte set to null clears the whole group. An empty object does not clear a group. The API normalizes an all-empty PTE group to null.
+
+After saving, call `course_get` for the same school, course and year and compare the note and every supported score with the verified source, including already-correct values. If a required value is missing, stale or unsaved, the score update remains unfinished. When handling feedback, do not resolve/close it merely because the note saved; record the gap and retain pending/in_progress until the necessary correction is verified.
 
 ## Cross-year start dates
 
