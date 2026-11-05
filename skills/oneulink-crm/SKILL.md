@@ -11,6 +11,8 @@ Resolve exact identifiers from query results, never from guessed names. Clarify 
 
 Match each fact to a field's meaning before writing. Descriptions and internal consultation notes are not fallback storage for missing fields, tools or permissions. Keep unsupported work unfinished and explain the gap; use [destination selection](references/editing.md#choose-a-destination-before-writing) when a fact does not fit.
 
+For course English-score updates, apply the [English requirements workflow](references/courses.md#ielts--pte): verified numeric thresholds belong in `annual.ielts`/`annual.pte` as well as any necessary explanation in `annual.english`. Read back both before concluding; updating prose alone does not complete a supported score correction.
+
 Respond in the user's language unless asked otherwise. Saved text follows the field's declared language, not the conversation language: write English source fields in English and Chinese fields in Chinese. When an authorized edit supplies content in another language, faithfully translate it into the destination language; preserve facts, conditions and scope. Read [field-language rules](references/editing.md#write-in-the-fields-declared-language) before text edits. Do not translate untouched stored fields, identifiers, enum values or URLs. Chinese labels in parentheses identify CRM or website wording, not alternative API values.
 
 ## Load references by task
