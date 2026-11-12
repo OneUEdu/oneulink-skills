@@ -9,6 +9,8 @@ At task start or after reconnecting, call `crm_context` and report the returned 
 
 Resolve exact identifiers from query results, never from guessed names. Clarify an ambiguous target, year, or business meaning before the dependent edit. Act within existing explicit authorization without requesting the same approval again. A request to query or analyze does not authorize changing records or feedback status.
 
+Authorized course fee updates default to precise/verified fees（精准学费／已核验学费）. Apply the [fee verification rule](references/courses.md#fee-verification-when-updating-amounts), explicitly save the verification flag with the changed amounts, read back both, and report the persisted verification status in the completion summary. This also applies to batch updates.
+
 Match each fact to a field's meaning before writing. Descriptions and internal consultation notes are not fallback storage for missing fields, tools or permissions. Keep unsupported work unfinished and explain the gap; use [destination selection](references/editing.md#choose-a-destination-before-writing) when a fact does not fit.
 
 Respond in the user's language unless asked otherwise. Saved text follows the field's declared language, not the conversation language: write English source fields in English and Chinese fields in Chinese. When an authorized edit supplies content in another language, faithfully translate it into the destination language; preserve facts, conditions and scope. Read [field-language rules](references/editing.md#write-in-the-fields-declared-language) before text edits. Do not translate untouched stored fields, identifiers, enum values or URLs. Chinese labels in parentheses identify CRM or website wording, not alternative API values.
