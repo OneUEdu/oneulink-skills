@@ -1,0 +1,104 @@
+name: Sync OneULink plugin on skill updates
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'skills/**'
+      - '.github/workflows/sync-plugin.yml'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: Validate without committing to the plugin repository
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sync-oneulink-plugin-main
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    if: github.repository == 'OneUEdu/oneulink-skills' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        shell: bash
+        working-directory: plugin
+    steps:
+      - name: Check out the triggering source commit
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          path: source
+          persist-credentials: false
+
+      - name: Check out plugin using its dedicated deploy key
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: OneUEdu/oneulink-plugin
+          ref: main
+          path: plugin
+          ssh-key: ${{ secrets.ONEULINK_PLUGIN_SYNC_KEY }}
+
+      - name: Set up Python
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.12'
+
+      - name: Install validation dependencies
+        run: python -m pip install -r requirements-dev.txt
+
+      - name: Validate current plugin
+        run: python scripts/manage.py validate
+
+      - name: Sync the committed skill source
+        id: upstream
+        run: |
+          revision="$(git -C ../source rev-parse HEAD)"
+          python scripts/manage.py sync --source ../source --ref "$revision"
+          echo "revision=$revision" >> "$GITHUB_OUTPUT"
+
+      - name: Validate synced plugin and run regression tests
+        run: |
+          python scripts/manage.py validate
+          python -m unittest discover -s scripts -p 'test_*.py' -v
+
+      - name: Commit generated changes
+        if: github.event_name == 'push' || !inputs.dry_run
+        env:
+          UPSTREAM_REVISION: ${{ steps.upstream.outputs.revision }}
+        run: |
+          latest="$(git ls-remote https://github.com/OneUEdu/oneulink-skills.git refs/heads/main | awk '{print $1}')"
+          if [[ "$latest" != "$UPSTREAM_REVISION" ]]; then
+            echo 'A newer source commit superseded this run; leaving the plugin unchanged.' >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          git add -- \
+            plugins/oneulink-crm/skills/oneulink-crm \
+            plugins/oneulink-crm/.codex-plugin/plugin.json \
+            plugins/oneulink-crm/.mcp.json \
+            upstream.lock.json
+          if git diff --cached --quiet; then
+            echo 'Skills already match this upstream commit.' >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m "chore(skills): sync oneulink-skills ${UPSTREAM_REVISION:0:7}" \
+            -m "Source: https://github.com/OneUEdu/oneulink-skills/commit/$UPSTREAM_REVISION"
+          git push origin HEAD:main
+          echo "Synced upstream $UPSTREAM_REVISION in plugin commit $(git rev-parse HEAD)." >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Summarize validation
+        env:
+          UPSTREAM_REVISION: ${{ steps.upstream.outputs.revision }}
+        run: |
+          echo "Validated upstream commit: $UPSTREAM_REVISION" >> "$GITHUB_STEP_SUMMARY"
+          if [[ '${{ inputs.dry_run }}' == 'true' ]]; then
+            echo 'Dry run; generated changes were not committed.' >> "$GITHUB_STEP_SUMMARY"
+            git diff --stat >> "$GITHUB_STEP_SUMMARY"
+          fi
