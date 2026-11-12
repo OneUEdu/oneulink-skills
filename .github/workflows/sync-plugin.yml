@@ -59,7 +59,7 @@ jobs:
         id: upstream
         run: |
           revision="$(git -C ../source rev-parse HEAD)"
-          python scripts/manage.py sync --source ../source --ref "$revision"
+          python scripts/manage.py sync --source ../source --ref "$revision" --bump-patch
           echo "revision=$revision" >> "$GITHUB_OUTPUT"
 
       - name: Validate synced plugin and run regression tests
@@ -81,7 +81,9 @@ jobs:
             plugins/oneulink-crm/skills/oneulink-crm \
             plugins/oneulink-crm/.codex-plugin/plugin.json \
             plugins/oneulink-crm/.mcp.json \
-            upstream.lock.json
+            plugins/oneulink-crm/plugin.json \
+            upstream.lock.json \
+            CHANGELOG.md
           if git diff --cached --quiet; then
             echo 'Skills already match this upstream commit.' >> "$GITHUB_STEP_SUMMARY"
             exit 0

@@ -26,18 +26,26 @@ All amounts below are non-negative integers in AUD; durations are non-negative w
 
 The website displays VOE as a separate fee category labeled “VOE 课程”. Both its tuition and duration must be greater than 0 for it to appear in course-list and detail fee options. Entering tuition alone does not ensure display. Online study and VOE use separate fields.
 
-Each group is stored independently, without automatic propagation or conversion. An onshore international student is not a domestic student; “onshore” alone does not justify writing domestic fields. Changing tuition does not automatically adjust duration, registration/material/internship fees, or the verification flag.
+Each group is stored independently, without automatic propagation or conversion. An onshore international student is not a domestic student; “onshore” alone does not justify writing domestic fields. Changing tuition does not automatically adjust duration or registration/material/internship fees. The Agent must explicitly save fee verification as described below; the backend does not infer it from an amount change.
 
 For durations of at least 52 weeks, the public detail summary shows a rounded per-academic-year amount calculated as `total tuition / (weeks / 52)`; shorter courses show the total. The course list also lets visitors switch between total and per-academic-year amounts. Do not write a displayed annual amount back as CRM total tuition. The primary display follows the visitor's onshore/offshore selection, preferring the corresponding category before falling back to other groups with data.
 
 For a supplied weekly rate, establish the category, billable weeks, and whether multiplying a constant weekly rate is appropriate. Do not enter a weekly rate as total tuition or infer duration from the course name. Fractional durations are unsupported; do not round them yourself.
+
+## Fee verification when updating amounts
+
+An authorized update involving course annual fee amounts defaults to precise/verified fees（精准学费／已核验学费）. Include `annual.isAccurateFee: true` in the same `course_update` patch as the changed amounts for that course and year, including when the existing flag is false or null. Apply this to tuition in every student category and to registration, materials and internship fees; 0 is a valid amount. This default is part of the authorized fee update and needs no separate confirmation. Only an explicit user instruction to keep an estimated/unverified or unset status overrides it; save false or null as requested.
+
+Read back the saved amounts and `annual.isAccurateFee` with `course_get`. The completion summary must state the course, year, changed amounts and persisted precise/verified status, including any explicitly requested exception or failed verification-flag save. Do not report “verified” from the submitted patch alone. Apply the same rule to each fee-changing batch row and its result summary.
+
+`isAccurateFee` is one course-year flag, not a separate flag for each fee category. A change only to duration, display mode or descriptive text does not invoke this default. Standalone discounts and packaged-course tools have their own contracts and do not expose this flag; do not invent a patch field or change an unrelated annual course record. Explain any verification status that the available tool cannot persist. The default does not permit guessing missing amounts, categories or years, or claiming that an official source was checked when it was not.
 
 ## Annual flags and supporting information
 
 | annual field | Meaning and related behavior |
 | --- | --- |
 | isClose | Enrollment closed（停止招生）: true=closed for that year, false=open, null=unset. Does not delete the course or change dates. |
-| isAccurateFee | Fees verified（费用已核实）: true=verified against the institution's official fee schedule, false=unverified, null=unset. The public international-student fee display shows a verification notice. Entering an amount does not verify it or replace the supporting evidence. |
+| isAccurateFee | Precise/verified fees（精准学费／费用已核验）: true=verified, false=unverified, null=unset. Authorized fee updates default to explicitly saving true under the rule above; the API does not set it automatically. The public international-student fee display shows a verification notice. Retain the actual source/user instruction in the edit reason without inventing official-source verification. |
 | tuitionByScholarship | CRM label: 学费按奖学金显示. The public website displays “奖学金项目” (scholarship program) and a note that the corresponding tuition concession is fully provided by the school as a scholarship. This does not mean all tuition is waived. It neither associates a scholarship record nor calculates an amount. |
 | domesticHasGovernmentSubsidy | CRM label: 本地学生政府补贴. The public website displays “政府补贴” (government subsidy) for domestic fees. The price still comes directly from domesticTuitionFee; the flag does not subtract a subsidy or establish individual eligibility. |
 | courseInformation | Annual public course description（课程简介）, **English source text; write in English**: course overview, teaching content or learning outcomes, supporting existing rich-text HTML. Not fallback storage for unmapped locations, fees or feedback. Preserve unrelated existing content and images; see [destination selection](editing.md#choose-a-destination-before-writing). |
