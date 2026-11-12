@@ -44,6 +44,12 @@ jobs:
           path: plugin
           ssh-key: ${{ secrets.ONEULINK_PLUGIN_SYNC_KEY }}
 
+      - name: Initialize the public skills submodule
+        run: |
+          git config submodule.oneulink-skills.url https://github.com/OneUEdu/oneulink-skills.git
+          git submodule update --init --recursive
+          git -C plugins/oneulink-crm/skills fetch --no-tags origin '+refs/heads/*:refs/remotes/origin/*'
+
       - name: Set up Python
         uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
         with:
@@ -55,11 +61,11 @@ jobs:
       - name: Validate current plugin
         run: python scripts/manage.py validate
 
-      - name: Sync the committed skill source
+      - name: Advance the skills reference
         id: upstream
         run: |
           revision="$(git -C ../source rev-parse HEAD)"
-          python scripts/manage.py sync --source ../source --ref "$revision" --bump-patch
+          python scripts/manage.py update-skills --ref "$revision" --bump-patch
           echo "revision=$revision" >> "$GITHUB_OUTPUT"
 
       - name: Validate synced plugin and run regression tests
@@ -78,11 +84,10 @@ jobs:
             exit 0
           fi
           git add -- \
-            plugins/oneulink-crm/skills/oneulink-crm \
+            plugins/oneulink-crm/skills \
             plugins/oneulink-crm/.codex-plugin/plugin.json \
             plugins/oneulink-crm/.mcp.json \
             plugins/oneulink-crm/plugin.json \
-            upstream.lock.json \
             CHANGELOG.md
           if git diff --cached --quiet; then
             echo 'Skills already match this upstream commit.' >> "$GITHUB_STEP_SUMMARY"
