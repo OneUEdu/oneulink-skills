@@ -52,6 +52,7 @@ Read back the saved amounts and `annual.isAccurateFee` with `course_get`. The co
 | courseUrl | Annual course source URL（课程来源网址）. The backend requires a valid http/https URL. |
 | academicEntryRequirements | Annual academic entry requirements（学术入学要求）, **English source text; write in English**, plain text with line breaks, maximum 100,000 characters. Course-specific academic eligibility and selection conditions; follow the classification below. Omission preserves; null or whitespace clears. Does not change English requirements, fees or other years. |
 | english | Annual English requirements note（英语要求说明）, **English source text; write in English**, plain text. Does not update scores automatically. |
+| researchDegree | Annual structured research-degree details（研究学位资料）for doctoral and research master's courses, **English source text; write in English**. Whole-field replacement; see [research degree details](#research-degree-details). |
 | intakes | Deprecated intake note（旧入学说明）retained for historical readback only. No daily web editor or MCP write field; never reuse it for academic conditions. Actual dates use the existing structured date tools. Do not rewrite or migrate old content automatically. |
 | ielts / pte | Annual entry-score requirements; see below. |
 
@@ -65,7 +66,7 @@ Use this field for an institution's established course-specific academic entry a
 
 - Required school completion, qualifications, degrees, relevant disciplines and prerequisite subjects.
 - Grade thresholds such as GPA, WAM, average marks or ATAR, retaining the original scale, calculation basis, applicant group and applicable qualification.
-- Portfolios, research proposals, auditions or academic interviews explicitly required for academic selection.
+- Portfolios, research proposals, auditions or academic interviews explicitly required for academic selection. For doctoral and research master's courses, also structure these in `researchDegree` (see [research degree details](#research-degree-details)).
 - Relevant professional experience only when the institution explicitly accepts/requires it as an entry qualification or alternative academic pathway.
 
 Preserve separate admission pathways, AND/OR relationships, conditions, exceptions and applicable groups/intakes. A bare “65” does not establish 65%, a GPA conversion, a country-wide equivalence or a guaranteed offer. Clarify missing information only when it materially changes the authorized edit. Keep source links, known source dates and the basis for verification in the edit reason or linked feedback; the save timestamp is not a verification date.
@@ -75,6 +76,23 @@ IELTS/PTE, language exemptions and language-course pathways belong in the existi
 This classification governs CRM resource editing, not feedback submission. Users may report any subject; lack of a writable destination never invalidates their feedback. OneUEdu feedback guidance only helps the Agent write a stand-alone report a consultant can understand without the chat. See [CRM feedback handling](feedback.md#choose-the-destination-after-verification).
 
 Illustration only: if the institution explicitly establishes “a relevant bachelor degree with at least 65% average OR another bachelor degree plus two years of relevant experience”, retain both complete paths and the meaning of OR. Put an accompanying IELTS 6.5 requirement in English fields. A statement about a placement health check remains valid feedback even when no corresponding CRM editor exists. Do not save these hypothetical conditions into a real course.
+
+## Research degree details
+
+`annual.researchDegree` holds structured details for doctoral and research master's courses（博士 / 研究型硕士）: degree type, supervisor policy, entry routes, research application documents, interview, steps, a notice, course structure and application deadlines. Edit it through `course_update` with the selected year's annual revision. Omission preserves the field, null clears it, and an object replaces the whole field: read the current value with `course_get` first and keep every still-valid part. Every key is optional; record only what the institution states. Text is English source; faithfully translate supplied Chinese. Empty text, empty lists and an empty object are removed by the backend. The tool schema states the limits and rejects unknown keys.
+
+Classify each fact before writing:
+
+- **Academic, grade and experience conditions → `entryRoutes`.** One route per alternative way in; routes are OR, conditions inside a route are AND. Write each condition as a complete sentence and keep the institution's scale (“Average of at least 65%”, “WAM 70”). Also keep the full prose in `academicEntryRequirements`; the routes do not replace it. Do not split one pathway into several routes unless the source states the alternatives. Put conditions shared by every route (research documents, interview, no guaranteed admission) in `entryRoutesNote`.
+- **English, fees and start dates stay in their existing fields** (`english`/`ielts`/`pte`, fee fields, `course_dates_update`). A deadline's `intakeDate` only labels which intake the deadline belongs to.
+- **Never infer a supervisor policy.** Choose `required_before_application`（申请前必须取得导师同意）, `contact_recommended`（建议先联系导师）or `assigned_by_provider`（学校按研究计划分配）only when the institution says so; when it is silent use `not_stated`（学校没写明）. A supervisor `note` without a `policy` is rejected.
+- **Never infer numbers.** A bare “65” is not 65%, a GPA or a WAM. Record `maxWords` only for a stated word limit, credits only as published (up to two decimals; when total, coursework and research are all given, coursework + research must equal the total). Do not derive credits from unit counts or percentages.
+- **`structure.progressionRule` is a post-enrolment progression condition**（升读条件）, for example a first-year average of 70% to continue into the doctoral stage. It is not an entry requirement; entry conditions go in `entryRoutes`.
+- **Deadlines:** use `closesOn` (YYYY-MM-DD, optionally `closesAt` HH:MM and an IANA `timezone` such as `Australia/Melbourne`) for a stated date. Use `weeksBeforeStart` with `intakeDate` only when the institution states “at least N weeks before the start date”; do not convert it into a date or a date into weeks. Each deadline has exactly one of the two. `audience` is `all`, `offshore` or `onshore`.
+- **Documents** list research-specific materials (research proposal, motivation statement, writing sample, referees). `requirement` is `required`（必交）or `conditional`（视情况）only as stated; links must be https official templates or guidelines. General admission documents and English test results are not research documents.
+- `interview` is `required`, `possible` or `not_stated`; `steps` lists up to eight stated application steps in order; `notice` is one caution the website shows in a highlighted box.
+
+Read back with `course_get` and report the course, year and saved research-degree parts. Leave unstated parts empty and report them as not provided by the institution rather than filling them in.
 
 ## IELTS / PTE
 
