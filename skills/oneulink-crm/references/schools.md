@@ -6,6 +6,7 @@ Locate with schools_list, read with school_get, and edit with school_update. sch
 
 | Field | Meaning and actual behavior |
 | --- | --- |
+| isClose | School status（学校状态）: true=closed（已关闭）, false=operating/reopened（运行中）. Omission preserves the status; null is not accepted. Keeps the school record and its course/campus associations. |
 | enName / cnName | English/Chinese name（英文/中文名称）; write each in its named language. The English name cannot be cleared; null clears the Chinese name. |
 | enDescription / cnDescription | Public English/Chinese school introduction（英文/中文简介）; write each in its named language. Plain text; null clears it. Not fallback storage for missing fields/tools or raw feedback; preserve unrelated existing content and use [destination selection](editing.md#choose-a-destination-before-writing). |
 | url | School website URL（学校官网）. Validated as a URL by the backend; null clears it. |
@@ -17,6 +18,12 @@ Locate with schools_list, read with school_get, and edit with school_update. sch
 | tags | Complete list of Chinese tags（学校标签）; see below. |
 
 logo and rawApplicationFee may appear in details but are not writable through this MCP. Do not copy the raw application fee or other display values into applicationFee unless explicitly requested.
+
+## School closure and reopening
+
+For a verified school-wide closure, edit `isClose: true`; reopen with `isClose: false`. Read `school_get` and its revision first, then read back the status after saving. This is a shared school status, not a year-specific course flag. It does not individually rewrite each course’s enrollment status. A course-specific suspension does not establish that the whole school is closed; use that course’s annual `isClose` when appropriate.
+
+School removal is unavailable in both CRM and MCP, including undoing a school addition through history. Never use deletion, clearing names/descriptions, or removing dates as a substitute for closure. Previously removed schools may still be restored through CRM history.
 
 ## Tags replace the complete list
 
