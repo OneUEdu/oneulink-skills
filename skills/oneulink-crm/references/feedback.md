@@ -82,3 +82,12 @@ When explicitly authorized to retry a failed event notification, call feedback_u
 ## Packaged course feedback
 
 `course_package` feedback contains text and optional evidence links, with no file requirement or attachments. Verify its school/course context, then follow [package editing](courses.md#packaged-course-feedback) to find or create the combination and update the correct price. Keep the feedback open until the requested work and read-back checks are complete.
+
+## Government school program feedback
+
+Feedback whose school or course is a state education department program (provider codes ACT 00643J, NSW 00588M, NT 00780M, QLD 00608A, SA 00018A, TAS 03352G, VIC 00861K, WA 01723A; their primary/secondary course codes, for example VIC 019047G, 019048F, 028651A) usually concerns state-wide data: tuition by year level, charges, homestay, term dates, application deadlines, entry rules, and age or financial limits. These values come from the state reference data in api-v2, not from CRM course fields, and no CRM tool edits them.
+
+1. Identify the exact item, state, year level, fee year or term, and application type. Verify it on the department's official page; a school's, homestay family's or agent's own quote does not change a state-wide value. Age limits and visa financial amounts are verified on Home Affairs pages.
+2. Do not copy state tuition into the course's annual CRICOS fee fields to make the website show it, and do not write it into a consultation note as a substitute for the reference data.
+3. When the correction is verified and you are authorized to handle the feedback, record a self-contained handlingNote: state, item, fee year or term, old value → verified value, official URL and check date, plus "state reference data update required". Keep the feedback pending/in_progress with waitingFor=staff.
+4. Resolve only after the reference data has been updated and `get_course` (or the website page) shows the verified value. If the report is not supported by the official page, close it with the evidence explained.
