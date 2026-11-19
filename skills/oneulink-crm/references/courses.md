@@ -2,12 +2,12 @@
 
 ## Names and annual records
 
-Use courses_list to locate a school's courses. Its year parameter validates the operating year; it does not filter the list by that year's fees or enrollment closure. course_get supplies the selected year's current values. The year must match both the user's evidence and crm_context.years; do not default to the current year.
+Use courses_list to locate a school's courses. Its year parameter validates the operating year; it does not filter the list by that year's fees or enrollment closure. course_get supplies the selected year's current values. The year must match both the user's evidence and crm_context.years; do not default to the current year. The year is the commencement year the annual record applies to: when a price list is split by start date, each start date's fees belong to that date's year. When a price list covers only part of a year (for example intakes up to 30 June 2027), no field stores the cutoff. Save the fees for that year, state the cutoff in the edit reason and report it as an open item; do not put it in courseInformation or consultationNote.
 
 | shared field | Meaning |
 | --- | --- |
 | courseEnName / courseCnName | English/Chinese course name（英文/中文名称）, shared across years. The English name cannot be cleared; null clears the Chinese name. |
-| newVersion | Replacement course CRICOS code（替代课程）. Must identify another existing course at the same school, not itself. null removes the manual association; it does not close enrollment, delete the original course, or migrate data. The website prefers an existing manual target open for enrollment, otherwise it may fall back to automatic matching. Clearing this field does not guarantee the website stops recommending a replacement. |
+| newVersion | Replacement course CRICOS code（替代课程）. Must identify another existing course at the same school, not itself. null removes the manual association; it does not close enrollment, delete the original course, or migrate data. The website prefers an existing manual target open for enrollment, otherwise it may fall back to automatic matching. Clearing this field does not guarantee the website stops recommending a replacement. Set it on the old course, pointing to the replacement. Until the old course is closed for the relevant years (annual.isClose=true), the website and public MCP only show that a new code is registered; after closure they show the old course as replaced. Keep fees and start dates on the new course, and update packages that still list the old code. |
 | tuitionFeeViewMode | normal=default display（按默认显示）, week=weekly display（每周）. This changes presentation; stored tuition remains a total amount. |
 
 shared and annual have independent revisions. Send only the revisions for modified groups. A shared-name change still requires an allowed year, but does not change that year's fees.
@@ -31,6 +31,8 @@ Each group is stored independently, without automatic propagation or conversion.
 For durations of at least 52 weeks, the public detail summary shows a rounded per-academic-year amount calculated as `total tuition / (weeks / 52)`; shorter courses show the total. The course list also lets visitors switch between total and per-academic-year amounts. Do not write a displayed annual amount back as CRM total tuition. The primary display follows the visitor's onshore/offshore selection, preferring the corresponding category before falling back to other groups with data.
 
 For a supplied weekly rate, establish the category, billable weeks, and whether multiplying a constant weekly rate is appropriate. Do not enter a weekly rate as total tuition or infer duration from the course name. Fractional durations are unsupported; do not round them yourself.
+
+Material fees in every group are the whole-course total, not a yearly amount. A course-level enrolment fee belongs in the group's registration fee; a school-wide application fee belongs in `school_update.applicationFee`. When one price applies to onshore and offshore students, fill both groups explicitly. Duration is the number of weeks the institution quotes for this way of studying. If the institution only admits students with credit transfer and quotes the reduced weeks (for example 31 weeks while CRICOS registers 72), enter the quoted weeks and record the prerequisite in academicEntryRequirements. Weeks inside a package belong to the [package tools](#packaged-course-feedback), not to the single course.
 
 ## Fee verification when updating amounts
 
@@ -57,6 +59,12 @@ Read back the saved amounts and `annual.isAccurateFee` with `course_get`. The co
 
 All four boolean flags accept null to unset them; null is distinct from false. Text and URL fields can be cleared with null. The API saves submitted fields. When a year has no recorded row, GET returns null; an edit may populate that annual record, but must not automatically copy the previous year.
 
+## Teaching arrangements and practical sites
+
+`annual.teachingArrangements` stores the selected year's class schedule and practical (workshop) locations, for the course in general and optionally per course campus. A practical site that is not a campus record, such as a commercial kitchen or automotive workshop, is a `workshopLocations` entry `{name, address}`: an optional site name and the full street address with suburb, state and postcode. It is shown as course information; it does not create a campus or change enrolment-campus relationships. Use `{campusId}` only to reference an existing campus of the school.
+
+A campus entry that omits workshopLocations inherits the general entry; `[]` explicitly lists none for that campus. The field is replaced as a whole, so read the current value and resubmit the entries to keep. It is stored per year and not inherited: when the same sites apply to several years, write each year.
+
 ## Academic entry requirements
 
 Edit `annual.academicEntryRequirements` through `course_update` with the selected year's annual revision. Read the complete current text before replacing it and retain still-valid conditions. The source is English; faithfully translate supplied Chinese prose without inventing a qualification, score, assessment date or certainty. The API stores text; it does not calculate eligibility or guarantee admission. Do not copy a previous year automatically. `china_requirement` is a deprecated, read-only legacy field, not this field's source or fallback; never migrate its old values by inference.
@@ -64,6 +72,7 @@ Edit `annual.academicEntryRequirements` through `course_update` with the selecte
 Use this field for an institution's established course-specific academic entry and selection conditions:
 
 - Required school completion, qualifications, degrees, relevant disciplines and prerequisite subjects.
+- Prerequisite courses the institution imposes, including ones completed at another provider (for example “students must complete SIT30821 Certificate III before this Certificate IV”). A training.gov.au statement that a qualification has no entry requirements describes only the national qualification; it does not override the institution's own rule.
 - Grade thresholds such as GPA, WAM, average marks or ATAR, retaining the original scale, calculation basis, applicant group and applicable qualification.
 - Portfolios, research proposals, auditions or academic interviews explicitly required for academic selection.
 - Relevant professional experience only when the institution explicitly accepts/requires it as an entry qualification or alternative academic pathway.
@@ -84,7 +93,7 @@ Objects merge individual components. To change only the overall requirement, sen
 
 ## Cross-year start dates
 
-course_dates_get and course_dates_update are separate from annual course_get/course_update records. manualDates includes manually recorded dates and the teachingStart of associated school intakes. selectedImportantTimeIds contains current associations; availableImportantTimes contains selectable intakes. officialDates/officialIntakes are read-only.
+course_dates_get and course_dates_update are separate from annual course_get/course_update records. manualDates includes manually recorded dates and the teachingStart of associated school intakes. selectedImportantTimeIds contains current associations; availableImportantTimes contains selectable intakes. officialDates/officialIntakes are read-only. manualDates are course commencement dates, not orientation, census or application deadlines. The fees for each date come from the course_update annual record of that date's year.
 
 An update replaces both complete arrays, which must be submitted together. Preserve dates and associations not requested for removal. Include an intake's teachingStart when selecting it; remove that day's associations when removing the date. Multiple intakes can share a date: distinguish them by existing IDs, never guessed IDs. Two empty arrays clear only manual records and associations; they do not close enrollment.
 
@@ -121,3 +130,7 @@ These notes stay inside OneULink under existing course read/edit permissions. Re
 `course_package` is text-only feedback; it need not originate from a file. Read the original and customer follow-ups, then verify school/course codes and use `course_packages_list` to find the existing combination. Use `course_package_get` before `course_package_update`, or `course_package_create` for a new combination. These tools require resource read plus the corresponding existing package create/update permission; missing tools do not authorise writing package prices into a single course or consultation note.
 
 One combination stays one package. `totalTuitionFee` is the offshore package total, including all historic values; `onshoreTotalTuitionFee` is separate. Missing onshore means no quote, never offshore fallback. Update only the stated side; omit the other side to preserve it. If a quote explicitly applies to both, set both prices to the same amount. Duration and material fees are shared, and course order is preserved. Do not divide a package price between course records or overwrite single-course fees. Pass feedbackIds to associate the edit; use the resource revision and a stable idempotencyKey. Read back prices and the website/sync outcome, then update the feedback with actual work and remaining gaps. Saving a package does not resolve feedback.
+
+Each course in a package may carry its own `length` and `tuitionFee` as the institution quotes them for that package, often after credit transfer (for example 31 weeks in the package while CRICOS registers 72). Enter the quoted values; do not replace them with CRICOS or standalone durations. A course's `tuitionFee` is the offshore amount; there is no onshore per-course field. These values do not change the course's own annual fees. Package totals (`totalLength`, `totalTuitionFee`, `onshoreTotalTuitionFee`) are the institution's quoted figures; do not compute them by summing courses.
+
+When an update includes `courses`, send the complete ordered list and repeat every course's `length` and `tuitionFee`; values left out are cleared. Packages have no year, so a saved price applies to all intakes. If a quote covers only some intakes, state that in the reason and report it.
