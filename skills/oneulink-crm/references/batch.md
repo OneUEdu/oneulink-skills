@@ -6,7 +6,7 @@ Check the current tool schema and target details. Read only the relevant domain 
 
 For each row, read its current revision, generate and record a separate idempotency key, then write sequentially. Stop the batch if permission is lost. Retain a conflicting row for review while allowing unrelated, authorized rows to proceed. After a network timeout, retain the original key and read back to establish the outcome. Do not assume batch-wide transactions or all-or-nothing success.
 
-For rows changing course annual fee amounts, follow [fee verification](courses.md#fee-verification-when-updating-amounts): default `annual.isAccurateFee` to true in the same patch, read back the amounts and flag, and include the persisted verification status in each row's result. Preserve an explicit user-requested exception; do not require a second approval for the default.
+For rows changing annual fee amounts, follow [fee verification](courses.md#fee-verification-when-updating-amounts), including the domestic study-mode exception. Read back the amounts and flag and report the persisted verification status for each row.
 
 Report per-row results and counts for succeeded, conflicted, failed, and unexecuted rows, with resource identifiers, years, and auditId. Retain resumable row status without tokens or sensitive personal information in result files.
 
