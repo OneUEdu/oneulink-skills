@@ -9,7 +9,7 @@ At the start of a OneULink CRM task or after reconnecting, call `crm_context` to
 
 Resolve exact identifiers from query results, never from guessed names. Clarify an ambiguous target, year, or business meaning before the dependent edit. Act within existing explicit authorization without requesting the same approval again. A request to query or analyze does not authorize changing records or feedback status.
 
-Authorized course fee updates default to precise/verified fees（精准学费／已核验学费）. Apply the [fee verification rule](references/courses.md#fee-verification-when-updating-amounts), explicitly save the verification flag with the changed amounts, read back both, and report the persisted verification status in the completion summary. This also applies to batch updates.
+Follow the [fee verification rule](references/courses.md#fee-verification-when-updating-amounts) when changing course prices, including its domestic study-mode exception. Read back the amounts and persisted verification status for each course and year, including batch updates.
 
 Match each fact to a field's meaning before writing. Descriptions and internal consultation notes are not fallback storage for missing fields, tools or permissions. Keep unsupported work unfinished and explain the gap; use [destination selection](references/editing.md#choose-a-destination-before-writing) when a fact does not fit.
 
