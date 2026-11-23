@@ -24,6 +24,14 @@ All amounts below are non-negative integers in AUD; durations are non-negative w
 | Online study（线上授课） | onlineTuitionFee / onlineLength | onlineMaterialFee |
 | VOE international students（国际学生·VOE） | voeTuitionFee / voeLength | voeMaterialFee |
 
+### Domestic tuition by study mode
+
+Record domestic online total tuition in `annual.domesticTuitionDetails.online.totalTuitionFee` as whole-course AUD, even when no duration is known. The legacy `annual.onlineTuitionFee` is a separate category. Keep the existing domestic amount in `annual.domesticTuitionFee`. Set `annual.domesticTuitionDetails.onCampus: true` only if the school confirms this amount applies to on-campus study.
+
+Record English conditions in `onCampusCondition` and/or `online.condition` for the applicable mode. For early-cohort or limited-intake rates, retain the eligibility and intake window together with the amount. The website and public fee tool display the applicable condition with the rate. Do not infer exact intake dates, treat a conditional rate as a standard quote, or apply it across years without evidence.
+
+Read the requested year first. Updating `domesticTuitionDetails` replaces the object, so preserve unaffected study modes and conditions. Omit the object for ordinary edits, or pass `null` to clear it. When recording a domestic study-mode amount or condition, leave the shared `isAccurateFee` unchanged unless the entire annual fee record is being verified.
+
 The website displays VOE as a separate fee category labeled “VOE 课程”. Both its tuition and duration must be greater than 0 for it to appear in course-list and detail fee options. Entering tuition alone does not ensure display. Online study and VOE use separate fields.
 
 Each group is stored independently, without automatic propagation or conversion. An onshore international student is not a domestic student; “onshore” alone does not justify writing domestic fields. Changing tuition does not automatically adjust duration or registration/material/internship fees. The Agent must explicitly save fee verification as described below; the backend does not infer it from an amount change.
