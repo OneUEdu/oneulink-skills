@@ -22,7 +22,7 @@ For ordinary queries, start with the tool's field descriptions. Load the relevan
 | Task | Reference |
 | --- | --- |
 | School names, descriptions, application fees, English requirements, tags, consultation notes | [Schools](references/schools.md) |
-| Course names, replacements, annual fees, academic entry requirements, research degree details, English scores, start dates, consultation notes | [Courses and dates](references/courses.md) |
+| Course names, replacements, annual fees, teaching arrangements and practical sites, academic entry requirements, research degree details, English scores, start dates, packaged courses, consultation notes | [Courses and dates](references/courses.md) |
 | Campus addresses, academic calendars, scholarships, video associations | [School assets](references/assets.md) |
 | School application deadlines by term, who a deadline applies to, early closing, application rules（申请须知） | [School assets](references/assets.md) |
 | Course discounts, citizenship, admission conditions, validity | [Discounts](references/discounts.md) |
