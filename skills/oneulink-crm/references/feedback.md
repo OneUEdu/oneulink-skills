@@ -83,6 +83,15 @@ When explicitly authorized to retry a failed event notification, call feedback_u
 
 `course_package` feedback contains text and optional evidence links, with no file requirement or attachments. Verify its school/course context, then follow [package editing](courses.md#packaged-course-feedback) to find or create the combination and update the correct price. Keep the feedback open until the requested work and read-back checks are complete.
 
+## Application deadline and application rule feedback
+
+Reports about a school's application deadline, who it applies to, early closing or an application rule（申请须知） are edited in the school's assets, not in course fields.
+
+1. Open the school's official admissions or key-dates page. Identify the year, the term and the audience (international or domestic, coursework or research). An agent's or third party's date does not replace the school's published one.
+2. Compare it with `school_assets_list(kind=important-times, year=…)`. Correct an existing term's applicationClose, appliesToStudents, appliesToCourses or mayCloseEarly; create the term if it is missing. Follow [create terms and record deadlines](assets.md#create-terms-and-record-deadlines) and set sourceUrl and verifiedAt.
+3. For a rule, compare it with `school_assets_list(kind=application-rules)`, then update or create the rule in Chinese. Deleting a rule is a webpage-only action; when one must go, record that in handlingNote and keep the feedback open until it is done.
+4. Save with feedbackIds and a reason that names the source page. Resolve after the read-back matches the source. A course page shows the school deadline only when a term's teachingStart equals that course's start date and the audience fits the course; if the website still differs after the save, check those before reporting a display problem.
+
 ## Government school program feedback
 
 Feedback whose school or course is a state education department program (provider codes ACT 00643J, NSW 00588M, NT 00780M, QLD 00608A, SA 00018A, TAS 03352G, VIC 00861K, WA 01723A; their primary/secondary course codes, for example VIC 019047G, 019048F, 028651A) usually concerns state-wide data: tuition by year level, charges, homestay, term dates, application deadlines, entry rules, and age or financial limits. These values come from the state reference data in api-v2, not from CRM course fields, and no CRM tool edits them.
