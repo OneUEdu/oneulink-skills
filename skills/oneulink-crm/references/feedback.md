@@ -83,6 +83,12 @@ When explicitly authorized to retry a failed event notification, call feedback_u
 
 `course_package` feedback contains text and optional evidence links, with no file requirement or attachments. Verify its school/course context, then follow [package editing](courses.md#packaged-course-feedback) to find or create the combination and update the correct price. Keep the feedback open until the requested work and read-back checks are complete.
 
+## Recognised language pathway feedback
+
+The original target may be the language school, while the relationship is edited on the accepting school's CRM school detail under Recognised Language Courses（认可的语言班）. Verify both CRICOS provider codes and the evidence for the course or programme, completion condition, degree, campus and validity dates. Keep unsupported details open for follow-up.
+
+When the verified accepting school differs from the staff association, associate the same feedback UUID with the accepting school using the existing feedback handling action. Preserve the original target and record the reason. In the CRM school editor, select the language school, enter the verified conditions, and link the feedback UUID in the save form. Put public evidence in the source URL field and agreement, offer or school-email references in the internal evidence field. The CRM MCP feedback tools can handle the ticket, and the school editor performs the relationship edit. Confirm the public direction that was reported, including `get_school` on the language school's provider code for a reverse lookup, before resolving.
+
 ## Application deadline and application rule feedback
 
 Reports about a school's application deadline, who it applies to, early closing or an application rule（申请须知） are edited in the school's assets, not in course fields.
