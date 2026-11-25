@@ -85,9 +85,11 @@ When explicitly authorized to retry a failed event notification, call feedback_u
 
 ## Recognised language pathway feedback
 
-The original target may be the language school, while the relationship is edited on the accepting school's CRM school detail under Recognised Language Courses（认可的语言班）. Verify both CRICOS provider codes and the evidence for the course or programme, completion condition, degree, campus and validity dates. Keep unsupported details open for follow-up.
+The original target may be the language course, while the relationship is edited on the accepting school's CRM school detail under Recognised Language Courses（认可的语言班）. Verify both CRICOS provider codes, the exact language course CRICOS code, and the evidence for the completion requirement, degree, eligible main courses, campus and validity dates. Keep unsupported details open for follow-up.
 
-When the verified accepting school differs from the staff association, associate the same feedback UUID with the accepting school using the existing feedback handling action. Preserve the original target and record the reason. In the CRM school editor, select the language school, enter the verified conditions, and link the feedback UUID in the save form. Put public evidence in the source URL field and agreement, offer or school-email references in the internal evidence field. The CRM MCP feedback tools can handle the ticket, and the school editor performs the relationship edit. Confirm the public direction that was reported, including `get_school` on the language school's provider code for a reverse lookup, before resolving.
+When the verified accepting school differs from the staff association, use `feedback_update` on the same feedback UUID with the accepting school's `schoolCode` and `courseCode: null` to clear the previous course association. Preserve the original target and record the reason. In the CRM school editor, select the language school and its exact course, enter the verified conditions and link the feedback UUID. Save one rule per language course. Put public evidence in the source URL field and agreement, offer or school-email references in the internal evidence field.
+
+Before resolving, verify the relationship in the direction that was reported. Use the public `get_course` with the language course code to verify the accepting school and its conditions, or `get_school` with the accepting school's provider code to verify its list of recognised courses.
 
 ## Application deadline and application rule feedback
 
