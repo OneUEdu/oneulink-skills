@@ -83,6 +83,14 @@ When explicitly authorized to retry a failed event notification, call feedback_u
 
 `course_package` feedback contains text and optional evidence links, with no file requirement or attachments. Verify its school/course context, then follow [package editing](courses.md#packaged-course-feedback) to find or create the combination and update the correct price. Keep the feedback open until the requested work and read-back checks are complete.
 
+## Recognised language pathway feedback
+
+The original target may be the language course, while the relationship is edited on the accepting school's CRM school detail under Recognised Language Courses（认可的语言班）. Verify both CRICOS provider codes, the exact language course CRICOS code, and the evidence for the completion requirement, degree, eligible main courses, campus and validity dates. Keep unsupported details open for follow-up.
+
+Use `feedback_update` on the same feedback UUID if the staff association needs correction. Set `schoolCode` to the verified accepting school and pass `courseCode: null` to clear a previous language-course association. Preserve the original target and record the reason. In the CRM school editor, select the language school and its exact course, enter the verified conditions and link the feedback UUID. Keep separate rules where the same language course has different requirements by degree or eligible main course. Put public evidence in the source URL field and agreement, offer or school-email references in the internal evidence field.
+
+Before resolving, verify the relationship in the direction that was reported. Use the public `get_course` with the language course code to verify the accepting school and its conditions, or `get_school` with the accepting school's provider code to verify its list of recognised courses. These reads may reflect earlier data for up to an hour. For a fresh course lookup, include `sections: ["core", "campuses"]` in `get_course`; this combination bypasses the MCP course cache and still returns recognition in the core response. If the public result still differs from the saved rule, keep the ticket open and check again after synchronisation.
+
 ## Application deadline and application rule feedback
 
 Reports about a school's application deadline, who it applies to, early closing or an application rule（申请须知） are edited in the school's assets, not in course fields.
