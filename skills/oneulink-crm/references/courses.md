@@ -32,7 +32,7 @@ Record English conditions in `onCampusCondition` and/or `online.condition` for t
 
 Read the requested year first. Updating `domesticTuitionDetails` replaces the object, so preserve unaffected study modes and conditions. Omit the object for ordinary edits, or pass `null` to clear it. When recording a domestic study-mode amount or condition, leave the shared `isAccurateFee` unchanged unless the entire annual fee record is being verified.
 
-The website displays VOE as a separate fee category labeled “VOE 课程”. Both its tuition and duration must be greater than 0 for it to appear in course-list and detail fee options. Entering tuition alone does not ensure display. Online study and VOE use separate fields.
+The website displays VOE as a separate fee category labeled “VOE 课程”. Course-list fee options require positive tuition and duration. Course details can also show a category with only a payment plan. Record tuition and duration only when the source confirms them. Online study and VOE use separate fields.
 
 Each group is stored independently, without automatic propagation or conversion. An onshore international student is not a domestic student; “onshore” alone does not justify writing domestic fields. Changing tuition does not automatically adjust duration or registration/material/internship fees. The Agent must explicitly save fee verification as described below; the backend does not infer it from an amount change.
 
@@ -49,6 +49,10 @@ For ordinary annual fee amount updates, include `annual.isAccurateFee: true` in 
 Read back the saved amounts and `annual.isAccurateFee` with `course_get`. The completion summary must state the course, year, changed amounts and persisted precise/verified status, including any explicitly requested exception or failed verification-flag save. Do not report “verified” from the submitted patch alone. Apply the same rule to each fee-changing batch row and its result summary.
 
 `isAccurateFee` is one course-year flag, not a separate flag for each fee category. A change only to duration, display mode or descriptive text does not invoke this default. Standalone discounts and packaged-course tools have their own contracts and do not expose this flag; do not invent a patch field or change an unrelated annual course record. Explain any verification status that the available tool cannot persist. The default does not permit guessing missing amounts, categories or years, or claiming that an official source was checked when it was not.
+
+## Payment plans and upfront payments
+
+Use the [payment plan guidance](course-arrangements.md#optional-payment-plans) when the current tool exposes annual payment plans. It covers amount units, whole-plan replacement, public wording, course-year grouping and upfront payments. Total tuition remains independent of the payment plan. For placement flags and hours, see [shared placement fields](course-arrangements.md#existing-shared-placement-fields).
 
 ## Annual flags and supporting information
 
@@ -73,6 +77,8 @@ All four boolean flags accept null to unset them; null is distinct from false. T
 `annual.teachingArrangements` stores the selected year's class schedule and practical (workshop) locations, for the course in general and optionally per course campus. A practical site that is not a campus record, such as a commercial kitchen or automotive workshop, is a `workshopLocations` entry `{name, address}`: an optional site name and the full street address with suburb, state and postcode. It is shown as course information; it does not create a campus or change enrolment-campus relationships. Use `{campusId}` only to reference an existing campus of the school.
 
 A campus entry that omits workshopLocations inherits the general entry; `[]` explicitly lists none for that campus. The field is replaced as a whole, so read the current value and resubmit the entries to keep. It is stored per year and not inherited: when the same sites apply to several years, write each year.
+
+See [course arrangement fields](course-arrangements.md#optional-annual-teaching-arrangements) for campus IDs, custom addresses and timetable inheritance.
 
 ## Academic entry requirements
 

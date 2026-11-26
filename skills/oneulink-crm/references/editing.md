@@ -14,6 +14,8 @@ Follow an explicit target and value supplied by the user. When deriving changes 
 
 Submit only requested, established changes. Omitted fields stay unchanged; 0 and false are meaningful values. Interpret null per field. Tags, course associations, citizenship, admission periods, and manual dates are complete replacement lists. IELTS/PTE objects instead merge individual components. A blank spreadsheet cell is not a clearing instruction.
 
+Each course payment plan and `teachingArrangements` object is replaced in full. Carry forward valid rows and raw overrides as described in [course arrangements](course-arrangements.md).
+
 Use HTML only for fields already supporting rich text, such as school English requirements and course information. Preserve untouched image references; do not add local paths, data URLs, or new images that have not been uploaded. The API sanitizes HTML and checks image origins. Keep plain-text fields as plain text.
 
 ## Write in the field's declared language
@@ -21,6 +23,8 @@ Use HTML only for fields already supporting rich text, such as school English re
 Conversation language and storage language are separate. For an authorized edit, convert supplied prose into the language declared in the relevant field reference before saving. English source fields must contain English prose, not Chinese or a bilingual concatenation. Preserve qualifications, dates, quantities, named entities and uncertainty; retain established official names. Do not invent a fact or change a requirement while translating. Ask only when ambiguity would change the meaning of the saved data.
 
 Course annual `courseInformation`, `academicEntryRequirements` and `english`, English name/description fields, and course-discount `description` use English. Explicit Chinese name/description fields, school tags, scholarship `name`/`description` and application-rule `topic`/`content` use Chinese. Other fields do not inherit a language requirement merely because their name contains “English”: school `englishEntryRequirements` describes the subject of a requirement and has no declared source-language mapping in the current v2 translation model. Preserve existing language for fields without a declared language, including internal `consultationNote`, `reason` and feedback `handlingNote`, unless the task requests otherwise.
+
+Payment labels, timing, custom fee names and conditions use English. Teaching timetables and custom workshop names also use English. Keep official workshop addresses as supplied. Resolved names and addresses for campus references are read-only.
 
 Read the current text before merging changes. Translate the content needed for the authorized field edit; do not turn a small addition into a rewrite of unrelated historical paragraphs or other fields. If mixed legacy content prevents producing a consistent English source without expanding the requested edit, report the needed normalization instead of silently rewriting it.
 

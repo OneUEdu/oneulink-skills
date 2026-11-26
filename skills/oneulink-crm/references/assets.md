@@ -16,6 +16,8 @@ All these fields can be cleared with null when editing. Missing source informati
 
 Each campus address represents one location; addressLine1–4 are parts of that location, not four separate teaching sites. This MCP edits existing campuses but cannot create campus records. Practical sites such as kitchens or workshops are recorded per course and year in `annual.teachingArrangements.workshopLocations`, not by editing a campus; see [teaching arrangements](courses.md#teaching-arrangements-and-practical-sites). Verify a specific existing record before correcting it; do not repurpose a different campus, concatenate separate sites, or use names/descriptions to simulate missing relations. For unsupported location work, follow [destination selection](editing.md#choose-a-destination-before-writing) and keep the remaining feedback work unfinished.
 
+For default or campus-specific timetables and workshop lists, follow the [course arrangement fields](course-arrangements.md#optional-annual-teaching-arrangements) when the current course tool exposes them.
+
 ## Academic calendars: important-times
 
 | Field | Meaning and constraints |
