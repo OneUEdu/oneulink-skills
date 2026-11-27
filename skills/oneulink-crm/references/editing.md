@@ -22,7 +22,7 @@ Use HTML only for fields already supporting rich text, such as school English re
 
 Conversation language and storage language are separate. For an authorized edit, convert supplied prose into the language declared in the relevant field reference before saving. English source fields must contain English prose, not Chinese or a bilingual concatenation. Preserve qualifications, dates, quantities, named entities and uncertainty; retain established official names. Do not invent a fact or change a requirement while translating. Ask only when ambiguity would change the meaning of the saved data.
 
-Course annual `courseInformation`, `english` and `intakes`, English name/description fields, and course-discount `description` use English. Explicit Chinese name/description fields, school tags and scholarship `name`/`description` use Chinese. Other fields do not inherit a language requirement merely because their name contains “English”: school `englishEntryRequirements` describes the subject of a requirement and has no declared source-language mapping in the current v2 translation model. Preserve existing language for fields without a declared language, including internal `consultationNote`, `reason` and feedback `handlingNote`, unless the task requests otherwise.
+Course annual `courseInformation`, `academicEntryRequirements` and `english`, English name/description fields, and course-discount `description` use English. Explicit Chinese name/description fields, school tags, scholarship `name`/`description` and application-rule `topic`/`content` use Chinese. Other fields do not inherit a language requirement merely because their name contains “English”: school `englishEntryRequirements` describes the subject of a requirement and has no declared source-language mapping in the current v2 translation model. Preserve existing language for fields without a declared language, including internal `consultationNote`, `reason` and feedback `handlingNote`, unless the task requests otherwise.
 
 Read the current text before merging changes. Translate the content needed for the authorized field edit; do not turn a small addition into a rewrite of unrelated historical paragraphs or other fields. If mixed legacy content prevents producing a consistent English source without expanding the requested edit, report the needed normalization instead of silently rewriting it.
 
@@ -30,7 +30,7 @@ The backend derives other languages asynchronously for configured source fields.
 
 ## Choose a destination before writing
 
-Match each verified fact to its meaning, scope, year and audience. A string or HTML field accepting the value does not make it the right destination.
+These are OneULink CRM editing rules, not limits on feedback intake. Accepting a report does not depend on an available destination field. During authorized CRM handling, match each verified fact to its meaning, scope, year and audience. A string or HTML field accepting the value does not make it the right destination.
 
 | Situation | Action |
 | --- | --- |
@@ -43,7 +43,7 @@ School descriptions and courseInformation describe the school or course, includi
 
 Consultation notes are not a general overflow field either. Saving a note or handling explanation does not complete a missing public-data update. Keep partially handled feedback pending/in_progress, with completed and outstanding items distinguished; do not resolve or close it just because the available tools cannot finish it.
 
-For example, a request to record one theory location and two simultaneously used workshops requires representing distinct locations and their roles for that course. Correct a matching existing campus only when the requested fact really corrects that record. Do not concatenate locations into its address, rename a campus to simulate course roles, or put the inventory in the course description. The current MCP cannot create locations or maintain those course-location roles; report that gap without inventing a field. See [campus capabilities](assets.md#campuses-campuses).
+For example, a request to record one theory location and two simultaneously used workshops requires representing distinct locations and their roles for that course. Correct a matching existing campus only when the requested fact really corrects that record. Record the workshops as practical sites in the course's `annual.teachingArrangements.workshopLocations` for each applicable year; see [teaching arrangements](courses.md#teaching-arrangements-and-practical-sites). Do not concatenate locations into a campus address, rename a campus to simulate course roles, or put the inventory in the course description. The current MCP cannot create a new campus record; if a location must become an enrolment campus, report that gap without inventing a field. See [campus capabilities](assets.md#campuses-campuses).
 
 ## Write self-contained consultation notes
 
@@ -72,7 +72,7 @@ Use a separate, stable idempotencyKey, such as a UUID, for each resource edit an
 - invalid_country_code, invalid_year, or fields errors: correct established mistakes at the reported field paths. Check the source year as well; do not substitute the first allowed year.
 - If the outcome remains unclear, failures repeat, or permission is lost, stop that operation and report what is needed to resume.
 
-feedback_update uses an integer version and no idempotency key. Follow the [feedback rules](feedback.md), not resource retry semantics.
+feedback_update action omitted/handle uses an integer version and no idempotency key; its reply/mark_followed branches use requestId UUIDs. retry_notification uses no UUID and requires a readback after an uncertain outcome; pending does not mean sent. Follow the [feedback action and retry rules](feedback.md#reply-and-follow-up-with-the-same-tools), not resource retry semantics.
 
 ## Determine completion
 

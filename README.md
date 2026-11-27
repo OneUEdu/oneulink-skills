@@ -1,6 +1,6 @@
 # OneULink Skills
 
-Private skills for OneULink staff. This repository is the source of truth for the skills; it does not contain the CRM backend or MCP server implementation.
+Skills for OneULink staff. The repository is public so anyone can install the skills; using them requires signing in to OneULink, and CRM access is controlled by each account's OAuth grant and API permissions. This repository is the source of truth for the skills; it does not contain the CRM backend or MCP server implementation.
 
 ## Available skills
 
@@ -12,7 +12,7 @@ Instructions are in English with Chinese interface labels where useful. Agents f
 
 ## Install
 
-You need Node.js/npm, a supported agent client, and read access to this private GitHub repository. Use your existing Git, GitHub CLI, or SSH authentication. Repository access allows downloading the Skill; CRM access is separately controlled by your account's OAuth grant and API permissions.
+You need Node.js/npm and a supported agent client. The repository is public, so downloading the Skill needs no GitHub sign-in; CRM access is controlled separately by your OneULink sign-in, your account's OAuth grant and API permissions.
 
 Install the Skill for Codex and Claude Code:
 
@@ -44,5 +44,11 @@ Run this command to install available updates; merely pushing a repository chang
 ## Maintain
 
 Edit `skills/<skill-name>/SKILL.md` and its referenced files here. Keep the Skill name stable, link every supporting reference from the relevant entrypoint, and preserve established field and permission semantics. Do not duplicate the Skill back into the frontend repository or include credentials, real feedback records, or generated client configuration.
+
+Pushing changes under `skills/` to `main` immediately starts [Sync OneULink plugin on skill updates](https://github.com/OneUEdu/oneulink-skills/actions/workflows/sync-plugin.yml). The plugin references this entire repository as a Git submodule. The workflow advances that reference to the triggering commit, validates the plugin and runs its tests, then commits the reference and version metadata to `OneUEdu/oneulink-plugin/main`. Skill instructions are maintained only here, including plugin/standalone connection guidance and response presentation. There is no copied Skill snapshot, text-replacement override or separate source lock file in the plugin. Updating the workflow file also triggers a setup check; changes only to this README do not.
+
+The workflow uses `update-skills --bump-patch`: actual committed Skill content or file-inventory changes increment the plugin patch version and update both manifests and the version/source changelog entry. A reference-only advance or repeated run does not increment it. Packaging reads the referenced Git blobs unchanged and restores the installable `skills/<name>/` layout without including this repository's Git metadata or maintenance files. Changes are committed only after validation and tests succeed; platform publication remains a separate step.
+
+Cross-repository Git access uses a dedicated write deploy key attached only to `oneulink-plugin`, stored as the repository Actions secret `ONEULINK_PLUGIN_SYNC_KEY` here. The built-in `GITHUB_TOKEN` has only source read permission. Run manually with `dry_run` for validation without a plugin commit. Concurrent updates are serialized; a superseded source commit is skipped before publishing, and plugin pushes never use force. Failures are visible in Actions and use each maintainer's GitHub notification settings. Installed clients still require their normal update or release process.
 
 Before publishing a change, validate the Skill format, check relative links, and confirm the `skills` CLI can list the Skill. Test installation in an isolated temporary project rather than overwriting a user's installed copy. MCP protocol/schema changes belong in the CRM frontend repository's `services/crm-mcp`; CRM API and authorization changes belong in `oneu_connect`. This repository has no npm publishing or server-deployment step.
